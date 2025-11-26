@@ -5,8 +5,9 @@ import cookieParser from 'cookie-parser';
 import { ValidationPipe } from '@nestjs/common';
 import IORedis from 'ioredis';
 import session from 'express-session';
-import ms, { t} from 'ms'
+import ms from 'ms'
 import { parseBoolean } from './utils/parse-boolean';
+import { RedisStore } from 'connect-redis';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule);
@@ -27,7 +28,11 @@ async function bootstrap() {
       httpOnly: parseBoolean(config.getOrThrow<string>('SESSION_HTTP_ONLY')),
       secure: parseBoolean(config.getOrThrow<string>('SESSION_SECURE')),
       sameSite: 'lax'
-    }
+    },
+    store: new RedisStore({
+      client: redis,
+      prefix: config.getOrThrow<string>('SESSION_FOLDER')
+    })
   }))
   app.enableCors({
     origin: config.getOrThrow<string>('ALLOWED_ORIGIN'),
