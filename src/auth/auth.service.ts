@@ -22,9 +22,9 @@ export class AuthService {
     return user;
   }
 
-  public async login(user: any): Promise<any> {}
+  // public async login(user: any): Promise<any> {}
 
-  public async logout(user: any): Promise<any> {}
+  // public async logout(user: any): Promise<any> {}
 
-  private async saveSession(user: any): Promise<any> {}
+  // private async saveSession(user: any): Promise<any> {}
 }
